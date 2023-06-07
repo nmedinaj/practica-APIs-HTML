@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica APIs HTML5</title>
+    <style>
+        #input-video {
+            opacity: 0;
+        }
+
+        label {
+            background-color: rgb(13, 38, 39);
+            padding: 12px;
+            border-radius: 4px;
+            color: whitesmoke;
+            margin: 40px auto;
+            display: block;
+            text-align: center;
+            width: 40%;
+        }
+
+        #contenido {
+            width: fit-content;
+            margin: auto;
+        }
+
+        #botonera {
+            display: flex;
+            justify-content: space-between;
+        }
+        #botonera button {
+            padding: 4px;
+            background-color: aliceblue;
+            border-radius: 4px;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Práctica APIs HTML5</h1>
+    <div id="contenido" hidden>
+        <video id="video" src="" width="620">
+        </video>
+        <div id="botonera">
+            <div>
+                <button onclick="document.getElementById('video').play();">Reproducir</button>
+                <button onclick="document.getElementById('video').pause();">Pausa</button>
+            </div>
+            <div>
+                <button onclick="document.getElementById('video').volume += 0.1;">Subir Volumen</button>
+                <button onclick="document.getElementById('video').volume -= 0.1;">Bajar Volumen</button>
+            </div>
+        </div>
+    </div>
+    <label for="input-video">Cargar vídeo</label>
+    <input type="file" name="input-video" id="input-video">
+    <p id="loading" style="text-align: center;" hidden>Cargando...</p>
+</body>
+
+<script>
+    var input = document.getElementById("input-video");
+    var container = document.getElementById("contenido");
+    var video = document.getElementById("video");
+    var loadingMensaje = document.getElementById("loading");
+
+    input.addEventListener("change", function (event) {
+        if (event.target.files[0]) {
+            loadingMensaje.hidden = false;
+            cargarVideo(event.target.files[0]);
+        }
+    });
+
+    function cargarVideo(videoFile) {
+        if (!videoFile.type.startsWith("video/")) {
+            loadingMensaje.hidden = true;
+            alert("El archivo seleccionado no es válido.");
+            return;
+        } else {
+            container.hidden = false;
+            var url = URL.createObjectURL(videoFile);
+            video.src = url;
+            loadingMensaje.hidden = true;
+        }     
+    }
+</script>
+
+</html>
